@@ -2,11 +2,11 @@
 
 extern crate libc;
 pub extern crate nix;
-extern crate posix_ipc as ipc;
 #[macro_use] extern crate bitflags;
 
 use nix::sys::ptrace;
 pub use nix::sys::ptrace::ptrace::*;
+use nix::sys::signal;
 use std::ptr;
 use std::default::Default;
 use std::vec::Vec;
@@ -88,16 +88,16 @@ pub fn attach(pid: libc::pid_t) -> Result<libc::c_long, i32> {
     ptrace_raw(PTRACE_ATTACH, pid, ptr::null_mut(), ptr::null_mut())
 }
 
-pub fn release(pid: libc::pid_t, signal: ipc::signals::Signal) -> Result<libc::c_long, i32> {
-    ptrace_raw(PTRACE_DETACH, pid, ptr::null_mut(), (signal as u32) as *mut libc::c_void)
+pub fn release(pid: libc::pid_t, signal: Option<signal::Signal>) -> Result<libc::c_long, i32> {
+    ptrace_raw(PTRACE_DETACH, pid, ptr::null_mut(), signal.map_or(0, |s| s as u32) as *mut libc::c_void)
 }
 
-pub fn cont(pid: libc::pid_t, signal: ipc::signals::Signal) -> Result<libc::c_long, i32> {
-    ptrace_raw(PTRACE_CONT, pid, ptr::null_mut(), (signal as u32) as *mut libc::c_void)
+pub fn cont(pid: libc::pid_t, signal: Option<signal::Signal>) -> Result<libc::c_long, i32> {
+    ptrace_raw(PTRACE_CONT, pid, ptr::null_mut(), signal.map_or(0, |s| s as u32) as *mut libc::c_void)
 }
 
-pub fn cont_syscall(pid: libc::pid_t, signal: ipc::signals::Signal) -> Result<libc::c_long, i32> {
-    ptrace_raw(PTRACE_SYSCALL, pid, ptr::null_mut(), (signal as u32) as *mut libc::c_void)
+pub fn cont_syscall(pid: libc::pid_t, signal: Option<signal::Signal>) -> Result<libc::c_long, i32> {
+    ptrace_raw(PTRACE_SYSCALL, pid, ptr::null_mut(), signal.map_or(0, |s| s as u32) as *mut libc::c_void)
 }
 
 pub fn traceme() -> Result<libc::c_long, i32> {

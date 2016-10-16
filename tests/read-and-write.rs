@@ -1,6 +1,5 @@
 extern crate libc;
 extern crate ptrace;
-extern crate posix_ipc as ipc;
 
 use std::ffi::CString;
 use std::io;
@@ -15,7 +14,7 @@ fn test_attach_detach() {
     let pid = fork_and_halt();
     assert!(match ptrace::attach(pid) { Ok(_) => true, _ => false });
     unsafe { waitpid(pid, ptr::null_mut(), 0) };
-    assert!(match ptrace::release(pid, ipc::signals::Signal::None) { Ok(_) => true, _ => false });
+    assert!(match ptrace::release(pid, None) { Ok(_) => true, _ => false });
 }
 
 #[test]
