@@ -14,4 +14,4 @@ name = "ptrace"
 bitflags = "0.1"
 enum_primitive = "0.1.0"
 libc = "0.2.17"
-posix_ipc = { git = "https://github.com/chaosagent/rust-posix-ipc" }
+posix_ipc = { git = "https://github.com/chaosagent/rust-posix-ipc", rev = "5aacf16" }
