@@ -37,6 +37,7 @@ pub enum Request {
     SetRegs = 13,
     Attach = 16,
     Detatch = 17,
+    Syscall = 24,
     SetOptions = 0x4200,
     Seize = 0x4206
 }
@@ -158,6 +159,12 @@ pub fn release(pid: libc::pid_t, signal: ipc::signals::Signal) -> Result<libc::c
 pub fn cont(pid: libc::pid_t, signal: ipc::signals::Signal) -> Result<libc::c_long, usize> {
     unsafe {
         raw(Request::Continue, pid, ptr::null_mut(), (signal as u32) as *mut libc::c_void)
+    }
+}
+
+pub fn cont_syscall(pid: libc::pid_t, signal: ipc::signals::Signal) -> Result<libc::c_long, usize> {
+    unsafe {
+        raw(Request::Syscall, pid, ptr::null_mut(), (signal as u32) as *mut libc::c_void)
     }
 }
 
