@@ -1,9 +1,9 @@
 [package]
 name = "ptrace"
 version = "0.1.0"
-authors = ["Torrie Fischer <torrie@ripple.com>"]
+authors = ["Torrie Fischer <torrie@ripple.com>", "David Hou <david.hou314@gmail.com>"]
 description = "Rust bindings for the POSIX ptrace API"
-repository = "http://github.com/codius/rust-ptrace"
+repository = "http://github.com/chaosagent/rust-ptrace"
 license = "MIT"
 readme = "README.md"
 
