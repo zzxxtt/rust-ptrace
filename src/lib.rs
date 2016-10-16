@@ -12,8 +12,8 @@ use std::default::Default;
 use std::vec::Vec;
 use std::mem;
 
-pub type Address = u64;
-pub type Word = u64;
+pub type Address = usize;
+pub type Word = usize;
 
 #[derive(Clone, Copy, Default, Debug)]
 pub struct Registers {
@@ -107,7 +107,7 @@ pub fn traceme() -> Result<libc::c_long, i32> {
 #[derive(Clone, Copy, Debug)]
 pub struct Syscall {
     pub args: [Word; 6],
-    pub call: u64,
+    pub call: Word,
     pub pid: libc::pid_t,
     pub return_val: Word
 }
