@@ -11,6 +11,5 @@ readme = "README.md"
 name = "ptrace"
 
 [dependencies]
-bitflags = "0.1"
 libc = "0.2.17"
 nix = "0.7.0"

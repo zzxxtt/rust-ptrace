@@ -2,7 +2,6 @@
 
 extern crate libc;
 pub extern crate nix;
-#[macro_use] extern crate bitflags;
 
 use nix::sys::ptrace;
 pub use nix::sys::ptrace::ptrace::*;
