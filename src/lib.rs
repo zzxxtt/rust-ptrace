@@ -14,6 +14,7 @@ use std::mem;
 
 pub type Address = usize;
 pub type Word = usize;
+pub type IWord = isize;
 
 #[derive(Clone, Copy, Default, Debug)]
 pub struct Registers {
@@ -109,7 +110,7 @@ pub struct Syscall {
     pub args: [Word; 6],
     pub call: Word,
     pub pid: libc::pid_t,
-    pub return_val: Word
+    pub return_val: IWord
 }
 
 impl Syscall {
@@ -120,7 +121,7 @@ impl Syscall {
                     pid: pid,
                     call: regs.orig_rax,
                     args: [regs.rdi, regs.rsi, regs.rdx, regs.rcx, regs.r8, regs.r9],
-                    return_val: 0
+                    return_val: regs.rax as IWord
                 }),
             Err(e) => Err(e)
         }
@@ -136,7 +137,7 @@ impl Syscall {
                 regs.r8 = self.args[4];
                 regs.r9 = self.args[5];
                 regs.orig_rax = self.call;
-                regs.rax = self.return_val;
+                regs.rax = self.return_val as Word;
                 setregs(self.pid, &regs)
             },
             Err(e) => Err(e)
