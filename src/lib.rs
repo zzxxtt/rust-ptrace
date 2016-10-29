@@ -15,6 +15,9 @@ pub type Address = usize;
 pub type Word = usize;
 pub type IWord = isize;
 
+pub const PTRACE_O_EXITKILL: PtraceOptions        = 1 << 20;
+pub const PTRACE_O_SUSPEND_SECCOMP: PtraceOptions = 1 << 21;
+
 #[derive(Clone, Copy, Default, Debug)]
 pub struct Registers {
     pub r15: Word,
