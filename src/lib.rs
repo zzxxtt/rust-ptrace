@@ -95,6 +95,13 @@ pub fn release(pid: libc::pid_t, signal: Option<signal::Signal>) -> Result<libc:
     ptrace_raw(PTRACE_DETACH, pid, ptr::null_mut(), signal.map_or(0, |s| s as u32) as *mut libc::c_void)
 }
 
+pub fn geteventmsg(pid: libc::pid_t) -> Result<libc::c_ulong, i32> {
+    let mut msg: libc::c_ulong = 0;
+    let msg_ptr = &mut msg as *mut libc::c_ulong as *mut libc::c_void;
+    ptrace_raw(PTRACE_GETEVENTMSG, pid, ptr::null_mut(), msg_ptr)?;
+    Ok(msg)
+}
+
 pub fn cont(pid: libc::pid_t, signal: Option<signal::Signal>) -> Result<libc::c_long, i32> {
     ptrace_raw(PTRACE_CONT, pid, ptr::null_mut(), signal.map_or(0, |s| s as u32) as *mut libc::c_void)
 }
