@@ -243,9 +243,9 @@ impl Reader {
         }
     }
 
-    pub fn read_string(&self, address: Address) -> Result<Vec<u8>, i32> {
+    pub fn read_string(&self, address: Address, max_length: usize) -> Result<Vec<u8>, i32> {
         let mut end_of_str = false;
-        let mut buf: Vec<u8> = Vec::with_capacity(1024);
+        let mut buf: Vec<u8> = Vec::with_capacity(max_length);
         let max_addr = address + buf.capacity() as Address;
         let align_end = max_addr - (max_addr % mem::size_of::<Word>() as Address);
         'finish: for read_addr in (address..align_end).step_by(mem::size_of::<Word>() as Address) {
