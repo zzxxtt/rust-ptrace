@@ -49,7 +49,7 @@ pub struct Registers {
     pub gs: Word
 }
 
-fn ptrace_raw(request: PtraceRequest, pid: libc::pid_t, addr: *mut libc::c_void, data: *mut libc::c_void) -> Result<libc::c_long, i32> {
+pub fn ptrace_raw(request: PtraceRequest, pid: libc::pid_t, addr: *mut libc::c_void, data: *mut libc::c_void) -> Result<libc::c_long, i32> {
     match ptrace::ptrace(request, pid, addr, data) {
         Ok(v) => Ok(v),
         Err(e) => match e {
